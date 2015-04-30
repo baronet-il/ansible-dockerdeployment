@@ -1,0 +1,13 @@
+---
+
+-   name:       make sure docker service is started
+    service:    name=docker state=started
+
+-   { include: fetchcreds.yml, file_name: docker_creds }
+
+-   name:       login to docker
+    command:    docker login --email={{ ansible_local.docker_creds.email }} --password={{ ansible_local.docker_creds.password }} --username={{ ansible_local.docker_creds.username }}
+    notify:     docker logout
+
+-   name:       pull app docker image
+    command:    docker pull appmaker/someapp:latest

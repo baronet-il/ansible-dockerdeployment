@@ -1,0 +1,6 @@
+---
+
+-   hosts: "{{ alternate_hosts | default('tag_Name_app-main') }}"
+    roles:
+        -   role: webserver
+

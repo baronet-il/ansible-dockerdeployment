@@ -1,0 +1,23 @@
+---
+
+    -   include: provision.yml
+        tags:
+            - provision
+
+    -   include: pull.yml
+        tags:
+            - common
+
+    -   include: fetchcreds.yml
+        file_name: secrets
+        tags:
+            - deploy
+
+    -   include: deploy.yml
+        vars:
+            env:
+                session:
+                    secret: "{{ ansible_local.secrets.session.secret }}"
+                more_secrets: "{{ ansible_local.secrets.moreSecrets }}"
+        tags:
+            - deploy

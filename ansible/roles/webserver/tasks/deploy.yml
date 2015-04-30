@@ -1,0 +1,26 @@
+---
+
+-   name:       make sure old container is stopped
+    docker:
+        name:   app_main
+        state:  stopped
+        image:  appmaker/app
+
+-   name:       make sure old container is removed
+    docker:
+        name:   app_main
+        state:  absent
+        image:  appmaker/app
+
+-   name:           run new container
+    docker:
+        detach:     true
+        name:       app
+        env:
+            APP_SOME_SECRET: "{{ env.some.secret }}"
+            APP_ANOTHER_SECRET1: "{{ env.more_secrets.secret1 }}"
+            APP_ANOTHER_SECRET2: "{{ env.more_secrets.secret2 }}"
+        ports:
+            - 0.0.0.0:80:80
+            - 0.0.0.0:443:443
+        image:      appmaker/app

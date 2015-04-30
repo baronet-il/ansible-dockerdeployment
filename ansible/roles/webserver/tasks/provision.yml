@@ -1,0 +1,20 @@
+---
+
+-   name:       install packages
+    yum:        name={{ item }} state=present
+    with_items:
+        -   docker
+        -   python
+        -   python-pip
+        -   python-setuptools
+        -   gcc
+        -   python-devel
+        -   git
+
+-   name:       install python packages
+    pip:        name={{ item }} state=present
+    with_items:
+        -   docker-py
+        -   ansible
+
+

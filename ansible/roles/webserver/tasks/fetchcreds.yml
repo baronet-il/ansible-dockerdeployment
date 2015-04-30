@@ -1,0 +1,11 @@
+---
+
+-   name:       create facts.d directory
+    file:       path=/tmp/packer-provisioner-ansible-local/facts.d state=directory
+
+-   name:       fetch {{ file_name }}
+    command:    "aws s3 cp s3://super-secret-sauce/{{ file_name }}.json /tmp/packer-provisioner-ansible-local/facts.d/{{ file_name }}.fact"
+    notify:     delete facts
+
+-   name:       re-read facts after adding custom fact
+    setup:      fact_path=/tmp/packer-provisioner-ansible-local/facts.d filter=ansible_local

@@ -1,0 +1,23 @@
+{
+    "builders": [{
+        "type": "amazon-ebs",
+        "region": "eu-west-1",
+        "source_ami": "ami-a10897d6",
+        "instance_type": "t2.micro",
+        "ssh_username": "ec2-user",
+        "ssh_timeout": "5m",
+        "ami_name": "app-ami-{{timestamp}}",
+        "iam_instance_profile": "app-packer-creds"
+  }],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": ["sudo yum -y update", "sudo yum install -y python python-pip python-devel gcc", "sudo pip install ansible"]
+        },
+        {
+            "type": "ansible-local",
+            "playbook_file": "ansible/app.yml",
+            "role_paths": "ansible/roles/webserver",
+            "extra_arguments": ["--sudo", "--skip-tags=\"deploy\"", "--extra-vars=\"alternate_hosts=127.0.0.1\""]
+        }]
+}

@@ -1,0 +1,11 @@
+---
+
+-   name:       delete facts
+    file:       path=/tmp/packer-provisioner-ansible-local/facts.d state=absent
+
+-   name:       docker logout
+    file:       path={{ item }} state=absent
+    with_items:
+        -       /home/ec2-user/.dockercfg
+        -       /root/.dockercfg
+
